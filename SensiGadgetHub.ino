@@ -217,21 +217,6 @@ void UpdateScanResults() {
   }
 }
 
-const char* getCurrentUnit() {
-  if (current_unit == UnitType::CO2) {
-    return "CO2";
-  }
-  if (current_unit == UnitType::RH) {
-    return "Humidity";
-  }
-  if (current_unit == UnitType::T) {
-    return "Temperature";
-  }
-  if (current_unit == UnitType::VOC) {
-    return "VOC Index";
-  }  
-}
-
 void selectAndDisplaySample() {
   std::map<Gadget, Sample> current_samples = getCurrentSamples();
   if (current_samples.empty()) {
@@ -247,7 +232,7 @@ void selectAndDisplaySample() {
   }
 
   Sample current_sample = current_samples[current_gadget];
-  Serial.printf("Current sample of type %s from %s => %f\n", getCurrentUnit(), current_gadget.deviceId.c_str(), current_sample.value);
+  Serial.printf("Current sample of type %s from %s => %f\n", unitTypeString[current_unit].c_str(), current_gadget.deviceId.c_str(), current_sample.value);
   
   display(current_sample.value, current_unit, current_gadget.deviceId.c_str());
 }
