@@ -56,6 +56,57 @@ std::map<Gadget, Sample> getCurrentSamples() {
 
 const std::string unitTypeSymbols[] = {"UNDEFINED", "degC", "%", "", "", "ppm", "μg/m3", "ppb", "μg/m3", "μg/m3", "μg/m3"};
 
+enum Level {
+  GREEN = 0,
+  ORANGE = 1,
+  RED = 2
+};
+
+Level getLevel(UnitType unit, float value) {
+  switch(unit) {
+    case UnitType::UNDEFINED: {
+      return Level::RED;
+    }
+    case UnitType::T: {
+      if (value > 18.0 && value < 26.0) {
+        return Level::GREEN;
+      } else {
+        return Level::ORANGE;
+      }
+    }
+    case UnitType::RH: {
+      if (value > 40.0 && value < 60) {
+        return Level::GREEN;
+      } else {
+        return Level::ORANGE;
+      }
+    }
+    case UnitType::VOC: {
+      if (value < 200.0) {
+        return Level::GREEN;
+      } else if (value < 400.0) {
+        return Level::ORANGE;
+      } else {
+        return Level::RED;
+      }
+    }
+    case UnitType::CO2: {
+      if (value > 9999.0) {
+        value = 9999.0;
+      }
+      if (value < 1000.0) {
+        return Level::GREEN;
+      } else if (value < 1600.0) {
+        return Level::ORANGE;
+      } else {
+        return Level::RED;
+      }
+    }
+    default:
+      return Level::GREEN;
+  }
+}
+
 void setupDisplay() {
   tft.init();
   tft.setRotation(1);
