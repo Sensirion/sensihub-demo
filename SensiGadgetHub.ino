@@ -39,7 +39,6 @@ UnitType current_unit = UnitType::CO2;
 Gadget dummy_gadget = {"dummy", "dummy"};
 Gadget& current_gadget = dummy_gadget;
 
-
 std::map<Gadget, Sample> getCurrentSamples() {
   if (current_unit == UnitType::CO2) {
     return co2_samples;
@@ -54,6 +53,8 @@ std::map<Gadget, Sample> getCurrentSamples() {
     return voc_samples;
   }
 }
+
+const std::string unitTypeSymbols[] = {"UNDEFINED", "degC", "%", "", "", "ppm", "μg/m3", "ppb", "μg/m3", "μg/m3", "μg/m3"};
 
 void setupDisplay() {
   tft.init();
