@@ -190,48 +190,9 @@ void drawSensorValue(const char* label, String value, const char* unit, const ch
   tft.setTextDatum(defaultDatum);  
 }
 
-void displayCo2(float co2, const char* device_id) {
-  if (co2 > 9999.0) {
-    co2 = 9999.0;
-  }
-  uint16_t level = 0;
-  if (co2 >= 1600.0) {
-    level = 2;
-  } else if (co2 >= 1000.0) {
-    level = 1;
-  }
-  
-  drawSensorValue("CO2", String(co2, 0), "ppm", device_id, level);
-}
-
-void displayRelativeHumidity(float humidity, const char* device_id) {
-  uint16_t level = 0;
-  if (humidity < 40.0) {
-    level = 1;
-  } else if (humidity > 60.0) {
-    level = 1;
-  }
-  drawSensorValue("Humidity", String(humidity, 1), "%", device_id, level);
-}
-
-void displayTemperature(float temperature, const char* device_id) {
-  uint16_t level = 0;
-  if (temperature < 18.0) {
-    level = 1;
-  } else if (temperature > 26.0) {
-    level = 1;
-  }
-  drawSensorValue("Temperature", String(temperature, 1), "degC", device_id, level);
-}
-
-void displayVoc(float voc_index, const char* device_id) {
-  uint16_t level = 0;
-  if (voc_index > 400.0) {
-    level = 2;
-  } else if (voc_index > 200.0) {
-    level = 1;
-  }
-  drawSensorValue("VOC Index", String(voc_index, 0), "", device_id, level);
+void display(float value, UnitType unit, const char* device_id) {
+  drawSensorValue(unitTypeString[unit].c_str(), String(value),
+    unitTypeSymbols[unit].c_str(), device_id, getLevel(unit, value));
 }
 
 void UpdateScanResults() {
@@ -288,20 +249,7 @@ void selectAndDisplaySample() {
   Sample current_sample = current_samples[current_gadget];
   Serial.printf("Current sample of type %s from %s => %f\n", getCurrentUnit(), current_gadget.deviceId.c_str(), current_sample.value);
   
-  switch (current_unit) {
-    case UnitType::RH:
-      displayRelativeHumidity(current_sample.value, current_gadget.deviceId.c_str());
-      break;
-    case UnitType::T:
-      displayTemperature(current_sample.value, current_gadget.deviceId.c_str());
-      break;
-    case UnitType::VOC:
-      displayVoc(current_sample.value, current_gadget.deviceId.c_str());
-      break;
-    case UnitType::CO2:
-      displayCo2(current_sample.value, current_gadget.deviceId.c_str());
-      break;
-  }
+  display(current_sample.value, current_unit, current_gadget.deviceId.c_str());
 }
 
 void rotateSelectedUnit() {
