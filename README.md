@@ -21,11 +21,14 @@ Open the Arduino IDE (note that we assume you use the Arduino IDE 1.8.X or earli
 ### TFT_eSPI
 This is a graphics library for 32 bit processors. 
 
-Download the Library from https://github.com/Bodmer/TFT_eSPI as a ZIP file and proceed as above. 
+Download the Library from https://github.com/Bodmer/TFT_eSPI as a ZIP file and proceed as above.
+Alternatively, you can also install this library using the Arduino Librar Manager.
 
-As this code relies on three fonts that are buried within the TFT_eSPI library which the Arduino IDE generally can't find, we must copy those fonts into this workspace (i.e. the same folder, where this README is in).
+This sketch relies on three fonts and a configuration file being available to the TFT_eSPI library, which are provided in the `resources` folder and need to be copied over.
 
-For this either manually unzip the ZIP download or find the folder where the library is installed on your system. Then go to `TFT_eSPI/Fonts/Custom/fonts/` and copy the following three files into this workspace:
- - SensirionSimple25pt7b.h
- - ArchivoNarrow_Regular10pt7b.h
- - ArchivoNarrow_Regular50pt7b.h
+For this you need to access the Folder where the Arduino IDE installed the library:
+* On Windows, this is by default `C:\Users\Your User Name\Documents\Arduino\libraries`.
+* On Ubuntu, it is generally in `~/Arduino/libraries`.
+
+Copy the three fonts contained in the `fonts` folder into `TFT_eSPI/Fonts/Custom/`.
+Copy the `User_Custom_Fonts.h` to `TFT_eSPI/User/User_Setups/`.
