@@ -29,6 +29,7 @@ This sketch relies on three fonts and a configuration file being available to th
 For this you need to access the Folder where the Arduino IDE installed the library:
 * On Windows, this is by default `C:\Users\Your User Name\Documents\Arduino\libraries`.
 * On Ubuntu, it is generally in `~/Arduino/libraries`.
+Note that the library may also be called `TFT_eSPI-master`.
 
 Copy the three fonts contained in the `fonts` folder into `TFT_eSPI/Fonts/Custom/`.
 Copy the `User_Custom_Fonts.h` to `TFT_eSPI/User/User_Setups/`.
