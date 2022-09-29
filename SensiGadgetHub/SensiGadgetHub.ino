@@ -247,24 +247,19 @@ void selectAndDisplaySample() {
 }
 
 void rotateSelectedUnit() {
-  if (current_unit == UnitType::CO2) {
-    current_unit = UnitType::RH;
-    return;
-  }
-
-  if (current_unit == UnitType::RH) {
-    current_unit = UnitType::T;
-    return;
-  }
- 
-  if (current_unit == UnitType::T) {
-    current_unit = UnitType::VOC;
-    return;
-  }
-
-  if (current_unit == UnitType::VOC) {
-    current_unit = UnitType::CO2;
-    return;
+  std::vector<Sample> samples = findGadgetById(knownGadgets, selectedGadgetId)->second;
+  auto sampleIt = findSampleByUnit(samples, selectedUnit);
+  if (sampleIt == samples.end()) { 
+    // selected sample not found, choose first
+    selectedUnit = samples.begin()->type;
+  } else {
+    // select next sample
+    ++sampleIt;
+    if (sampleIt == samples.end()) {
+      // cyclic rotation
+      sampleIt = samples.begin();
+    }
+    selectedUnit = sampleIt->type;
   }
 }
 
