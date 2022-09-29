@@ -25,4 +25,6 @@ compile_test:
         - git clone https://github.com/Xinyuan-LilyGO/TTGO-T-Display
         - arduino-cli lib install --git-url https://github.com/MBjoern/arduino-ble-sensiscan
         - ln -s $PWD/TTGO-T-Display/TFT_eSPI ~/Arduino/libraries/TFT_eSPI
+        - cp $PWD/resources/fonts/* ~/Arduino/libraries/TFT_eSPI/Fonts/Custom/
+        - cp $PWD/resources/User_Custom_Fonts.h ~/Arduino/libraries/TFT_eSPI/User_Setups/
         - arduino-cli compile --warnings all --build-cache-path tmp --fqbn esp32:esp32:esp32 SensiGadgetHub/SensiGadgetHub.ino
