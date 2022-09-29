@@ -215,21 +215,6 @@ void UpdateScanResults() {
   }
 }
 
-const char* getCurrentUnit() {
-  if (current_unit == UnitType::CO2) {
-    return "CO2";
-  }
-  if (current_unit == UnitType::RH) {
-    return "Humidity";
-  }
-  if (current_unit == UnitType::T) {
-    return "Temperature";
-  }
-  if (current_unit == UnitType::VOC) {
-    return "VOC Index";
-  }  
-}
-
 void selectAndDisplaySample() {
   std::map<Gadget, Sample> current_samples = getCurrentSamples();
   if (current_samples.empty()) {
