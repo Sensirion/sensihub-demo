@@ -7,7 +7,7 @@ style_check:
   image: sensirion/embedded-ci:2.2.0
   tags: [linux, docker]
   script:
-    - clang-format-7 -i src/*
+    - clang-format-7 -i SensiGadgetHub/*
     - git diff --exit-code
 
 compile_test:
