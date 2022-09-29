@@ -5,8 +5,6 @@ Scan for nearby Sensirion Gadgets via BLE and display their data on a Display.
 # Platform
 This demonstrator was built and tested using an ESP32 with a TTGO display, which uses an adapted version of the TFT_eSPI library.
 
-# Setup
-
 # Dependencies
 
 ## ArduinoBleSensiScan. 
@@ -17,6 +15,11 @@ Install ArduinoBle SensiScan
 Download the Libaray from https://github.com/MBjoern/arduino-ble-sensiscan as a ZIP file. 
 
 Open the Arduino IDE (note that we assume you use the Arduino IDE 1.8.X or earlier) and install the library by clicking `Sketch -> Include Library -> Add .ZIP Libarary...`. 
+
+## NimBLE
+This is the Bluetooth Low Energy (BLE) library the ArduinoBleSensiScan library is built upon.
+
+Download the Library from https://github.com/h2zero/NimBLE-Arduino as a ZIP file and proceed as above.
 
 ## TFT_eSPI: TTGO
 This is a graphics library for 32 bit processors. 
