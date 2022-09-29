@@ -89,8 +89,28 @@ int getLevel(UnitType unit, float value) {
     default:
       return 0;
   }
+}
+
+std::vector<Sample>::const_iterator findSampleByUnit(const std::vector<Sample>& samples, UnitType unit) {
+  auto sampleIt = samples.begin();
+  while (sampleIt != samples.end()) {
+    if (sampleIt->type == unit) {
+      return sampleIt;
+    }
+    ++sampleIt;
   }
+  return sampleIt;
+}
+
+std::map<Gadget, std::vector<Sample>>::const_iterator findGadgetById(const std::map<Gadget, std::vector<Sample>>& knownGadgets, std::string gadgetId) {
+  auto gadgetIt = knownGadgets.begin();
+  while (gadgetIt != knownGadgets.end()) {
+    if (gadgetIt->first.deviceId == gadgetId) {
+      return gadgetIt;
+    }
+    ++gadgetIt;
   }
+  return gadgetIt;
 }
 
 void setupDisplay() {
