@@ -201,23 +201,16 @@ void display(float value, UnitType unit, const char* device_id) {
 }
 
 void UpdateScanResults() {
-  std::map<Gadget, std::vector<Sample>> scanResults;
-  sensiScan.getScanResults(scanResults);
-  for (const auto& item : scanResults) {
-    Gadget gadget = item.first;
-    //Serial.printf("- %s Gadget with ID: %s \n", gadget.name.c_str(), gadget.deviceId.c_str());
-    for (int i = 0; i < item.second.size(); i++) {
-      Sample sample = item.second[i];
-      //Serial.printf("  - %s -> %f \n", unitTypeString[sample.type].c_str(), sample.value);
-      if (sample.type == UnitType::CO2) {
-        co2_samples[gadget] = sample;
-      } else if (sample.type == UnitType::RH) {
-        humidity_samples[gadget] = sample;
-      } else if (sample.type == UnitType::T) {
-        temperature_samples[gadget] = sample;
-      } else if (sample.type == UnitType::VOC) {
-        voc_samples[gadget] = sample;
-      }
+  // fetch gadgets found by sensiscan library
+  std::map<Gadget, std::vector<Sample>> newGadgets;
+  sensiScan.getScanResults(newGadgets);
+  for (const auto& gadget : newGadgets) {
+    if (findGadgetById(knownGadgets, gadget.first.deviceId) == knownGadgets.end()) {
+      // add new Gadget
+      knownGadgets.insert(gadget);
+    } else {
+      // update existing Gadet
+      knownGadgets[gadget.first] = gadget.second;
     }
   }
 }
