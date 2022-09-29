@@ -313,6 +313,15 @@ void setup() {
   displaySplashScreen();
 
   sensiScan.begin();
+
+  while (knownGadgets.size() < 1) {
+    UpdateScanResults();
+    delay(100);
+  };
+  selectedGadgetId = knownGadgets.begin()->first.deviceId;
+  selectedUnit =
+      findGadgetById(knownGadgets, selectedGadgetId)->second.begin()->type;
+  selectAndDisplaySample();
 }
 
 void loop() {
