@@ -39,6 +39,7 @@ Gadget& current_gadget = dummy_gadget;
 // unitType respectively
 
 std::map<Gadget, std::vector<Sample>> knownGadgets;
+const std::string unitTypeSymbols[] = {"UNDEFINED", "degC", "%", "", "", "ppm", "μg/m3", "ppb", "μg/m3", "μg/m3", "μg/m3"};
 
 // for each unit type one may define what color the value
 // sould be displayed in, depending on the value itself
