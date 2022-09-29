@@ -216,36 +216,34 @@ void UpdateScanResults() {
 }
 
 void selectAndDisplaySample() {
-  std::map<Gadget, Sample> current_samples = getCurrentSamples();
-  if (current_samples.empty()) {
+  if (knownGadgets.empty()) {
     // nothing to display
     displaySplashScreen();
     return;
   }
 
-  // gadget not available or dummy gadget
-  if (current_samples.count(current_gadget) == 0) {
-    // select first available gadget
-    current_gadget = current_samples.begin()->first;
+  // find selected gadget in known gadgets
+  auto currentGadgetIt = findGadgetById(knownGadgets, selectedGadgetId);//knownGadgets.find(selectedGadget);
+  // latest selected gadget not available
+  if (currentGadgetIt == knownGadgets.end()) {
+    currentGadgetIt = knownGadgets.begin();
   }
 
-  Sample current_sample = current_samples[current_gadget];
-  Serial.printf("Current sample of type %s from %s => %f\n", getCurrentUnit(), current_gadget.deviceId.c_str(), current_sample.value);
-  
-  switch (current_unit) {
-    case UnitType::RH:
-      displayRelativeHumidity(current_sample.value, current_gadget.deviceId.c_str());
-      break;
-    case UnitType::T:
-      displayTemperature(current_sample.value, current_gadget.deviceId.c_str());
-      break;
-    case UnitType::VOC:
-      displayVoc(current_sample.value, current_gadget.deviceId.c_str());
-      break;
-    case UnitType::CO2:
-      displayCo2(current_sample.value, current_gadget.deviceId.c_str());
-      break;
+  // find selected sample in gadget's samples
+  std::vector<Sample> currentSamples = currentGadgetIt->second;
+  auto currentSampleIt = findSampleByUnit(currentSamples, selectedUnit);
+  // latest selected sample not available
+  if (currentSampleIt == currentSamples.end()) {
+    currentSampleIt = currentSamples.begin();
   }
+
+  Serial.printf("Current sample of type %s from %s => %f\n",
+    unitTypeString[currentSampleIt->type].c_str(),
+    currentGadgetIt->first.deviceId.c_str(),
+    currentSampleIt->value);
+  
+  display(currentSampleIt->value, currentSampleIt->type,
+    currentGadgetIt->first.deviceId.c_str());
 }
 
 void rotateSelectedUnit() {
