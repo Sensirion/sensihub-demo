@@ -39,6 +39,55 @@ Gadget& current_gadget = dummy_gadget;
 // unitType respectively
 
 std::map<Gadget, std::vector<Sample>> knownGadgets;
+
+// for each unit type one may define what color the value
+// sould be displayed in, depending on the value itself
+// 0 => green
+// 1 => orange
+// 2 => red
+
+int getLevel(UnitType unit, float value) {
+  switch(unit) {
+    case UnitType::UNDEFINED: {
+      return 2;
+    }
+    case UnitType::T: {
+      if (value > 18.0 && value < 26.0) {
+        return 0;
+      } else {
+        return 1;
+      }
+    }
+    case UnitType::RH: {
+      if (value > 40.0 && value < 60) {
+        return 0;
+      } else {
+        return 1;
+      }
+    }
+    case UnitType::VOC: {
+      if (value < 200.0) {
+        return 0;
+      } else if (value < 400.0) {
+        return 1;
+      } else {
+        return 2;
+      }
+    }
+    case UnitType::CO2: {
+      if (value > 9999.0) {
+        value = 9999.0;
+      }
+      if (value < 1000.0) {
+        return 0;
+      } else if (value < 1600.0) {
+        return 1;
+      } else {
+        return 2;
+      }
+    }
+    default:
+      return 0;
   }
   }
   }
