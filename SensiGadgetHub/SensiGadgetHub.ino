@@ -231,8 +231,7 @@ void selectAndDisplaySample() {
   }
 
   // find selected gadget in known gadgets
-  auto currentGadgetIt = findGadgetById(
-      knownGadgets, selectedGadgetId); // knownGadgets.find(selectedGadget);
+  auto currentGadgetIt = findGadgetById(knownGadgets, selectedGadgetId);
   // latest selected gadget not available
   if (currentGadgetIt == knownGadgets.end()) {
     currentGadgetIt = knownGadgets.begin();
