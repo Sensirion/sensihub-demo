@@ -285,7 +285,7 @@ void setupButtons() {
     rotateSelectedUnit();
     selectAndDisplaySample();
   });
-  
+
   btn_right.setPressedHandler([](Button2 & b) {
     Serial.printf("Right button pressed\n");
     rotateSelectedGadget();
@@ -298,7 +298,6 @@ void setup() {
   while (!Serial) {
       delay(100);
   }
-
   setupDisplay();
   setupButtons();
   
