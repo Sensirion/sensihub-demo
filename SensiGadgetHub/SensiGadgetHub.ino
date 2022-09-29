@@ -264,27 +264,18 @@ void rotateSelectedUnit() {
 }
 
 void rotateSelectedGadget() {
-  std::map<Gadget, Sample> current_samples = getCurrentSamples();
-  if(current_samples.size() <= 1) {
-    // nothing to rotate through
-    return;
-  }
-
-  bool take_next = false;
-  
-  for (const auto entry: current_samples) {
-    if (take_next) {
-      current_gadget = entry.first;
-      return;
+  auto gadgetIt = findGadgetById(knownGadgets, selectedGadgetId);
+  if (gadgetIt == knownGadgets.end()) {
+    // selected gadget not found, choose first
+    selectedGadgetId = knownGadgets.begin()->first.deviceId;
+  } else {
+    // select next gadget
+    ++gadgetIt;
+    if (gadgetIt == knownGadgets.end()) {
+      // cyclic rotation
+      gadgetIt = knownGadgets.begin();
     }
-    if (entry.first.deviceId == current_gadget.deviceId) {
-      take_next = true;
-    }
-  }
-
-  // we reached end of list, take first again
-  if (take_next) {
-    current_gadget = current_samples.begin()->first;
+    selectedGadgetId = gadgetIt->first.deviceId;
   }
 }
 
