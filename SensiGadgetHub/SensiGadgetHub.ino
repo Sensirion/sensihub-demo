@@ -27,31 +27,20 @@ TFT_eSPI tft = TFT_eSPI(135, 240); // Invoke library, pins defined in User_Setup
 #define FF90  &ArchivoNarrow_Regular10pt7b
 #define FF95  &ArchivoNarrow_Regular50pt7b
 
-// display caches
-// keep latest samples for each measured value 
-// so user can choose what to display by pressing buttons
-std::map<Gadget, Sample> co2_samples;
-std::map<Gadget, Sample> humidity_samples;
-std::map<Gadget, Sample> temperature_samples;
-std::map<Gadget, Sample> voc_samples;
 
 UnitType current_unit = UnitType::CO2;
 Gadget dummy_gadget = {"dummy", "dummy"};
 Gadget& current_gadget = dummy_gadget;
 
+// the knownGadgets object contains all gadgets and their samples
+// every update, all available gadget have their samples updated
+// and new gadgets are added. 
+// specific Gadgets and Samples are identified by their deviceId and
+// unitType respectively
 
-std::map<Gadget, Sample> getCurrentSamples() {
-  if (current_unit == UnitType::CO2) {
-    return co2_samples;
+std::map<Gadget, std::vector<Sample>> knownGadgets;
   }
-  if (current_unit == UnitType::RH) {
-    return humidity_samples;
   }
-  if (current_unit == UnitType::T) {
-    return temperature_samples;
-  }
-  if (current_unit == UnitType::VOC) {
-    return voc_samples;
   }
 }
 
