@@ -27,11 +27,6 @@ TFT_eSPI tft = TFT_eSPI(135, 240); // Invoke library, pins defined in User_Setup
 #define FF90  &ArchivoNarrow_Regular10pt7b
 #define FF95  &ArchivoNarrow_Regular50pt7b
 
-
-UnitType current_unit = UnitType::CO2;
-Gadget dummy_gadget = {"dummy", "dummy"};
-Gadget& current_gadget = dummy_gadget;
-
 // the knownGadgets object contains all gadgets and their samples
 // every update, all available gadget have their samples updated
 // and new gadgets are added. 
@@ -39,6 +34,9 @@ Gadget& current_gadget = dummy_gadget;
 // unitType respectively
 
 std::map<Gadget, std::vector<Sample>> knownGadgets;
+std::string selectedGadgetId = "";
+UnitType selectedUnit = UnitType::CO2;
+
 const std::string unitTypeSymbols[] = {"UNDEFINED", "degC", "%", "", "", "ppm", "μg/m3", "ppb", "μg/m3", "μg/m3", "μg/m3"};
 
 // for each unit type one may define what color the value
