@@ -3,7 +3,7 @@
 Scan for nearby Sensirion Gadgets via BLE and display their data on a Display.
 
 # Platform
-This demonstrator was built and tested using an ESP32 with a TTGO display, which uses an adapted version of the TFT_eSPI library.
+This demonstrator was built and tested using an ESP32 based LILYGO TTGO T-Display board, which uses an adapted version of the TFT_eSPI library.
 
 # Dependencies
 The following libraries need to be installed for this sketch to work.
