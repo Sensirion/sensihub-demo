@@ -188,7 +188,7 @@ void drawSensorValue(const char *label, float value, const char *unit,
   } else { // default to good
     tft.setTextColor(TFT_GREEN, TFT_BLACK);
   }
-  // draw 1 decimal place iff the value has less than three digits
+  // draw 1 decimal place if the value has less than three digits
   if (value > 100) {
     tft.drawString(String((int)value).c_str(), N_PX_H / 2, N_PX_W / 20);
   } else {
