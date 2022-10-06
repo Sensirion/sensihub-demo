@@ -218,6 +218,18 @@ void drawSensorValue(const char *label, float value, const char *unit,
   tft.setTextDatum(defaultDatum);
 }
 
+void drawSearchScreen() {
+  uint8_t defaultDatum = tft.getTextDatum();
+
+  // clear screen
+  tft.fillScreen(TFT_BLACK);
+  tft.setFreeFont(FF90);
+  tft.setTextColor(TFT_WHITE);
+  tft.setTextDatum(4); // middle, middle
+  tft.drawString("Finding gadgets near you", N_PX_H / 2, N_PX_W / 4 * 3);
+  tft.setTextDatum(defaultDatum);
+}
+
 void display(float value, UnitType unit, const char *device_id) {
   drawSensorValue(unitTypeString[unit].c_str(), value,
                   unitTypeSymbols[unit].c_str(), device_id,
@@ -333,6 +345,7 @@ void setup() {
   sensiScan.begin();
 
   while (knownGadgets.size() < 1) {
+    drawSearchScreen();
     UpdateScanResults();
     delay(updateIntervalMs / 4);
   };
