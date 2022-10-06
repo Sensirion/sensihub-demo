@@ -150,11 +150,6 @@ void displaySplashScreen() {
   tft.setTextDatum(defaultDatum);
 }
 
-void displaySearchScreen() {
-  // tft.fillScreen(TFT_BLACK);
-  // tft.setFreeFont
-}
-
 void buttonLoop() {
   btn_left.loop();
   btn_right.loop();
