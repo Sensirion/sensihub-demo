@@ -15,9 +15,12 @@ static int64_t lastUpdateTimeMs = 0;
 Button2 btn_right(BUTTON_1);
 Button2 btn_left(BUTTON_2);
 
+#define N_PX_W 135 // width
+#define N_PX_H 240 // height
+
 // Display related
 TFT_eSPI tft =
-    TFT_eSPI(135, 240); // Invoke library, pins defined in User_Setup.h
+    TFT_eSPI(N_PX_W, N_PX_H); // Invoke library, pins defined in User_Setup.h
 
 #define SENSIRION_GREEN 0x6E66
 #define sw_name "Sensirion Gadget Hub"
@@ -147,12 +150,17 @@ void displaySplashScreen() {
   tft.setTextDatum(defaultDatum);
 }
 
+void displaySearchScreen() {
+  // tft.fillScreen(TFT_BLACK);
+  // tft.setFreeFont
+}
+
 void buttonLoop() {
   btn_left.loop();
   btn_right.loop();
 }
 
-void drawSensorValue(const char *label, String value, const char *unit,
+void drawSensorValue(const char *label, float value, const char *unit,
                      const char *device_id, uint16_t level) {
   /*
    * Draw a sensor value onto the screen.
@@ -166,20 +174,13 @@ void drawSensorValue(const char *label, String value, const char *unit,
   // clear screen
   tft.fillScreen(TFT_BLACK);
 
-  // set default font
-  tft.setTextSize(1);
-  tft.setFreeFont(FF90);
+  // draw sensor value + unit in color detemined by level
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setTextSize(1);
+  tft.setFreeFont(FF95);
+  tft.setTextDatum(1); // top center
 
-  // label on bottom left
-  tft.setTextDatum(6);
-  tft.drawString(label, 10, 125);
-
-  // device id on bottom right
-  tft.setTextDatum(8);
-  tft.drawString(device_id, 230, 125);
-
-  // draw sensor value in color detemined by level
+  // draw value
   if (level == 2) {
     tft.setTextColor(TFT_RED, TFT_BLACK);
   } else if (level == 1) {
@@ -187,22 +188,38 @@ void drawSensorValue(const char *label, String value, const char *unit,
   } else { // default to good
     tft.setTextColor(TFT_GREEN, TFT_BLACK);
   }
-  tft.setTextDatum(8); // bottom right
-  tft.setTextSize(1);
-  tft.setFreeFont(FF95);
-  tft.drawString(value, 195, 105);
+  // draw 1 decimal place iff the value has less than three digits
+  if (value > 100) {
+    tft.drawString(String((int)value).c_str(), N_PX_H / 2, N_PX_W / 20);
+  } else {
+    tft.drawString(String(value, 1).c_str(), N_PX_H / 2, N_PX_W / 20);
+  }
 
-  // Draw CO2 unit
-  tft.setTextSize(1);
+  // Draw unit
+  tft.setTextDatum(7); // bottom center
+  tft.setTextSize(2);
   tft.setFreeFont(FF90);
-  tft.drawString(unit, 230, 90);
+  tft.drawString(unit, N_PX_H / 2, N_PX_W);
+
+  // settings for unit label and device id
+  tft.setFreeFont(FF90);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setTextSize(1);
+
+  // label on bottom left
+  tft.setTextDatum(6);
+  tft.drawString(label, N_PX_H / 40, N_PX_W / 40 * 39);
+
+  // device id on bottom right
+  tft.setTextDatum(8);
+  tft.drawString(device_id, N_PX_H / 40 * 39, N_PX_W / 40 * 39);
 
   // Revert datum setting
   tft.setTextDatum(defaultDatum);
 }
 
 void display(float value, UnitType unit, const char *device_id) {
-  drawSensorValue(unitTypeString[unit].c_str(), String(value),
+  drawSensorValue(unitTypeString[unit].c_str(), value,
                   unitTypeSymbols[unit].c_str(), device_id,
                   getLevel(unit, value));
 }
@@ -311,12 +328,13 @@ void setup() {
   setupButtons();
 
   displaySplashScreen();
+  delay(updateIntervalMs / 2); // to show sensi logo
 
   sensiScan.begin();
 
   while (knownGadgets.size() < 1) {
     UpdateScanResults();
-    delay(100);
+    delay(updateIntervalMs / 4);
   };
   selectedGadgetId = knownGadgets.begin()->first.deviceId;
   selectedUnit =
