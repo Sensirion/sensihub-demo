@@ -8,7 +8,7 @@ This demonstrator was built and tested using an ESP32 based LILYGO TTGO T-Displa
 # Dependencies
 The following libraries need to be installed for this sketch to work.
 ## ArduinoBleSensiScan 
-This library scans for Sesnirion Gadgets in the area and provides their data.
+This library scans for Sensirion Gadgets in the area and provides their data.
 
 Download the Libaray from https://github.com/MBjoern/arduino-ble-sensiscan as a ZIP file. 
 
